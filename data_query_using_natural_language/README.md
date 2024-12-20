@@ -37,10 +37,12 @@ You can install them using pip and the provided `requirements.txt` file.
 ### Clone the Repository
 
 ```bash
-repository_url = 'https://github.com/bteleuca/sas-viya-azure-openai-integrations.git'
-repository_folder = 'sas-viya-azure-openai-integrations/data_query_using_natural_language'
+repository_url=https://github.com/bteleuca/sas-viya-azure-openai-integrations.git
+repository_folder=sas-viya-azure-openai-integrations/data_query_using_natural_language
 git clone $repository_url
 cd $repository_folder
+ls
+
 ```
 
 ### Install Required Packages
@@ -131,7 +133,13 @@ python demo-function-calling-sas.py
     - Press ENTER for the default method.
     - A link will be generated, for instance `https://your-sas-viya-url.com/SASLogon/oauth/authorize?client_id=SASPy&response_type=code&code_challenge_method=S256&code_challenge=SfpVy5-mfUI6MBKYk5HTOmM5wh6yG3vOdlWsKW4-Bm0`
     - Copy the link, paste it in a browser and authenticate in your SAS Viya environment.
+
+    ![SASauthcode_link](images/SASauthcode_link.png)
+
     - An authorization code wil be generated.
+
+    ![auth_code](images/auth_code.png)
+
     - Paste it back in the Python command line:
 
      ```
