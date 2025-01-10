@@ -79,7 +79,7 @@ tools_list = [
         "type": "function",
         "function": {
             "name": "execute_sas_code",
-            "description": "This function is used to answer user questions about SAS Viya data by executing PROC SQL queries against the data source.",
+            "description": "This function is used to answer user questions about SAS Viya data by executing PROC SQL queries, DATA STEP or any other SAS PROC against the data source.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -138,7 +138,8 @@ def process_message(sas, question: str, library: str, table: str, sas_table_info
     system_message = (
         "You are a data analysis assistant for data in SAS tables and libraries. "
         "Please be polite, professional, helpful, and friendly. "
-        "Use the `execute_sas_code` function to execute SAS data queries, defaulting to aggregated data unless a detailed breakdown is requested. "
+        "Use the `execute_sas_code` function to execute SAS data queries, PROC SQL, DATA STEP or any other SAS PROC."
+        "Default to aggregated data unless a detailed breakdown is requested. "
         "The function returns TXT-formatted results, nicely tabulated for use display. "
         f"Refer to the {library}.{table} metadata: {sas_table_info}. ",
         f"If a question is not related to {library}.{table} data or you cannot answer the question, "

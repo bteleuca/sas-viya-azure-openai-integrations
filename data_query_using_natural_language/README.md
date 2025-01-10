@@ -1,5 +1,34 @@
 # SAS Viya Data Analysis Assistant with Azure OpenAI
 
+* [Introduction](#introduction)
+* [Prerequisites](#prerequisites)
+  * [Required Python Packages](#required-python-packages)
+* [Installation](#installation)
+  * [Clone the Repository](#clone-the-repository)
+  * [Install Required Packages](#install-required-packages)
+  * [Configure Environment Variables](#configure-environment-variables)
+  * [Configure `sascfg_personal.py`](#configure-sascfg_personalpy)
+* [Usage](#usage)
+  * [Running the Assistant](#running-the-assistant)
+  * [Steps During Execution](#steps-during-execution)
+  * [Commands](#commands)
+  * [Example Usage](#example-usage)
+    * [Asking for Help](#asking-for-help)
+    * [Changing the Table](#changing-the-table)
+    * [Asking a Data Question](#asking-a-data-question)
+    * [Ending the Session](#ending-the-session)
+* [Additional Notes](#additional-notes)
+* [Support](#support)
+* [Containerize the Application](#containerize-the-application)
+  * [Docker Prerequisites](#docker-prerequisites)
+  * [Dockerfile](#dockerfile)
+  * [.dockerignore File](#dockerignore-file)
+  * [Build the Container Image](#build-the-container-image)
+  * [Use Environment Variables](#use-environment-variables)
+  * [Build the Container](#build-the-container)
+  * [Run the Containerized Application](#run-the-containerized-application)
+
+
 ## Introduction
 
 Data querying and data analysis using natural language on any dataset is now possible with Azure OpenAI's Assistant API, specifically through its Function Calling feature. It empowers users to perform complex data analyses without technical skills, focusing on insights rather than programming.
@@ -55,16 +84,16 @@ pip install -r requirements.txt
 
 ### Configure Environment Variables
 
-Create a `.env` file in the same directory as the script with the following environment variables:
+Create a **`.env`** file in the same directory as the script with the following environment variables:
 
 ```dotenv
-OPENAI_URI=<Your Azure OpenAI Endpoint>
-OPENAI_KEY=<Your Azure OpenAI API Key>
-OPENAI_VERSION=<Your Azure OpenAI API Version>
-OPENAI_GPT_DEPLOYMENT=<Your OpenAI Model Deployment Name>
+OPENAI_URI='Your_Azure_OpenAI_Endpoint'
+OPENAI_KEY='Your_Azure_OpenAI_API_Key'
+OPENAI_VERSION='Your_Azure_OpenAI_API_Version'
+OPENAI_GPT_DEPLOYMENT='Your_OpenAI_Model_Deployment_Name'
 ```
 
-Replace the placeholders with your actual Azure OpenAI service details.
+Replace the placeholders with your actual Azure OpenAI service details. The variables must be wrapped between single or double quotes. See the file example: [.env.sample.python](.env.sample.python).
 
 ---
 Note: The Assistant was tested with **GPT-4o**, API version `2024-02-15-preview`.
@@ -332,3 +361,68 @@ Conversation ended.
 ## Support
 
 We use GitHub for tracking bugs and feature requests. Please submit a GitHub issue or pull request for support.
+
+## Containerize the Application
+
+As an alternative you can containerize the application and run it from the command line.
+
+### Docker Prerequisites
+
+A Linux machine with Docker installed.
+
+### Dockerfile
+
+The [Dockerfile](Dockerfile) specifies how to build your Docker image, copying the necessary files, installing the requirements and running the Python program.
+
+### .dockerignore File
+
+A [.Dockerignore](.Dockerignore) file excludes sensitive files and unnecessary content from your Docker image.
+
+### Build the Container Image
+
+[Clone the Repository](#clone-the-repository) as shown above.
+
+Use the Docker CLI to build your image from the Dockerfile:
+
+```bash
+docker build -t data-query-sas .
+
+```
+
+### Use Environment Variables
+
+The simplest way to manage your Azure OpenAI keys and endpoints is by using environment variables. This keeps your sensitive information out of your codebase and Docker images.
+
+You can use a **`.env`** file in the same directory as the Dockerfile to store your environment variables and pass them to the container:
+
+Create a .env file:
+
+```txt
+OPENAI_URI=Your_Azure_OpenAI_Endpoint
+OPENAI_KEY=Your_Azure_OpenAI_API_Key
+OPENAI_VERSION=Your_Azure_OpenAI_API_Version
+OPENAI_GPT_DEPLOYMENT=Your_OpenAI_Model_Deployment_Name
+```
+
+Replace the placeholders with your actual Azure OpenAI service details. The variables **must not** be wrapped between single or double quotes. See the file example: [.env.sample.docker](.env.sample.docker).
+
+### Build the Container
+
+[Clone the Repository](#clone-the-repository) as shown above.
+
+Use the Docker CLI to create and run a container from the image you built:
+
+```bash
+docker run -it --rm --env-file .env data-query-sas python demo-function-calling-sas.py
+
+```
+
+---
+Note the container will use the system variables stored in the `.env` file.
+
+---
+
+### Run the Containerized Application
+
+The application will behave like previously describe. See [Steps During Execution](#steps-during-execution).
+
