@@ -145,7 +145,7 @@ python demo-function-calling-sas.py
      Enter your SAS Viya URL, for example: https://your-sas-viya-url.com:
      ```
 
-   - Provide the URL, and the script will update `sascfg_personal.py` accordingly.
+   - Provide the SAS Viya URL, and the script will update `sascfg_personal.py` accordingly.
 
 2. **Starting SAS Session**:
 
@@ -364,11 +364,11 @@ We use GitHub for tracking bugs and feature requests. Please submit a GitHub iss
 
 ## Containerize the Application
 
-As an alternative you can containerize the application and run it from the command line.
+Alternatively, you can containerize the application and run it from the command line.
 
 ### Docker Prerequisites
 
-A Linux machine with Docker installed.
+Ensure you have a Linux machine with Docker installed.
 
 ### Dockerfile
 
@@ -380,12 +380,15 @@ A [.Dockerignore](.Dockerignore) file excludes sensitive files and unnecessary c
 
 ### Build the Container Image
 
-[Clone the Repository](#clone-the-repository) as shown above.
+First, [clone the repository](#clone-the-repository) as shown above.
 
-Use the Docker CLI to build your image from the Dockerfile:
+Then, use the Docker CLI to build your image from the Dockerfile:
 
 ```bash
 docker build -t data-query-sas .
+
+# Confirm the build
+docker image ls | grep data-query-sas
 
 ```
 
@@ -393,9 +396,7 @@ docker build -t data-query-sas .
 
 The simplest way to manage your Azure OpenAI keys and endpoints is by using environment variables. This keeps your sensitive information out of your codebase and Docker images.
 
-You can use a **`.env`** file in the same directory as the Dockerfile to store your environment variables and pass them to the container:
-
-Create a .env file:
+Create a **`.env`** file in the same directory as the Dockerfile to store your environment variables and pass them to the container. Create a `.env` file with the following content:
 
 ```txt
 OPENAI_URI=Your_Azure_OpenAI_Endpoint
@@ -408,9 +409,7 @@ Replace the placeholders with your actual Azure OpenAI service details. The vari
 
 ### Build the Container
 
-[Clone the Repository](#clone-the-repository) as shown above.
-
-Use the Docker CLI to create and run a container from the image you built:
+[Clone the Repository](#clone-the-repository) as shown above. Use the Docker CLI to create and run a container from the image you built:
 
 ```bash
 docker run -it --rm --env-file .env data-query-sas python demo-function-calling-sas.py
@@ -418,11 +417,11 @@ docker run -it --rm --env-file .env data-query-sas python demo-function-calling-
 ```
 
 ---
-Note the container will use the system variables stored in the `.env` file.
+Note that the container will use the environment variables stored in the `.env` file.
 
 ---
 
 ### Run the Containerized Application
 
-The application will behave like previously describe. See [Steps During Execution](#steps-during-execution).
+The application will behave like previously described. See [Steps During Execution](#steps-during-execution).
 
